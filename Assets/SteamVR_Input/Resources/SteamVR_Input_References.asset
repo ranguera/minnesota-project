@@ -16,10 +16,12 @@ MonoBehaviour:
   - _default
   - platformer
   - buggy
+  - FuckPlanet
   actionSetObjects:
   - {fileID: 11400000, guid: e6557f42d4700874bb924f31024ad6b6, type: 2}
   - {fileID: 11400000, guid: 1bffbc04f3cbb9c4f958990b3d5c62e5, type: 2}
   - {fileID: 11400000, guid: b0151e5c01597494a9505c717d92ea81, type: 2}
+  - {fileID: 11400000, guid: bc36f72cc577d824487b66c2903824dc, type: 2}
   actionNames:
   - __actions_default_in_InteractUI
   - __actions_default_in_Teleport
@@ -36,6 +38,7 @@ MonoBehaviour:
   - __actions_buggy_in_Throttle
   - __actions_buggy_in_Brake
   - __actions_buggy_in_Reset
+  - __actions_FuckPlanet_in_FuckPlanet
   actionObjects:
   - {fileID: 11400000, guid: b98a56beadec7b14ab545a95d8189bcb, type: 2}
   - {fileID: 11400000, guid: 07f7de5ed7c9ba84bb376b588c494b59, type: 2}
@@ -52,3 +55,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: faa7074b401011a4e92f5e92375764b7, type: 2}
   - {fileID: 11400000, guid: b6b81024ec797d946b1df185b63a46a8, type: 2}
   - {fileID: 11400000, guid: af6a31aa270add84d81a19a265757583, type: 2}
+  - {fileID: 11400000, guid: e479f87470143344e972c25ce5fb9755, type: 2}

@@ -6,32 +6,73 @@ using UnityEngine.Experimental.VFX;
 public class VFX : MonoBehaviour
 {
     public VisualEffect vfx;
+    public Renderer earthRenderer;
     
     public Gradient gradient_good = null;
     public Gradient gradient_sick = null;
 
     public float transition_frames = 250;
 
+    public Transform hand;
+
+    private Vector3 handVector;
+    private bool handOn;
+    private bool fucked;
+
     void Update()
     {
+        handVector = (hand.position - this.transform.position).normalized;
+        vfx.SetVector3("handPos", handVector);
+
         if(Input.GetKeyDown(KeyCode.Alpha1)) // sick to good
         {
-            StartCoroutine(Vector3Transition(Vector3.one * .4f, Vector3.one * .2f, "Size"));
-            StartCoroutine(FloatTransition(1.2f, 1.05f, "Radius"));
-            StartCoroutine(FloatTransition(2f, 1f, "Intensity"));
-            StartCoroutine(FloatTransition(.4f, .2f, "PartSize"));
-
-            StartCoroutine(GradientTransition(false));
+            UnFuckPlanet();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) // good to sick
         {
-            StartCoroutine(Vector3Transition(Vector3.one * .2f, Vector3.one * .4f, "Size"));
-            StartCoroutine(FloatTransition(1.05f, 1.2f, "Radius"));
-            StartCoroutine(FloatTransition(1f, 2f, "Intensity"));
-            StartCoroutine(FloatTransition(.2f, .4f, "PartSize"));
-
-            StartCoroutine(GradientTransition(true));
+            FuckPlanet();
         }
+
+        if( Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            if (fucked)
+            {
+                handOn = !handOn;
+
+                if (handOn)
+                    vfx.SetFloat("handInfluence", 1f);
+                else
+                    vfx.SetFloat("handInfluence", 0f);
+            }
+        }
+    }
+
+    public void FuckPlanet()
+    {
+        fucked = true;
+
+        StartCoroutine(Vector3Transition(Vector3.one * .2f, Vector3.one * .4f, "Size"));
+        StartCoroutine(FloatTransition(1.05f, 1.2f, "Radius"));
+        StartCoroutine(FloatTransition(1f, 2f, "Intensity"));
+        StartCoroutine(FloatTransition(.2f, .4f, "PartSize"));
+
+        StartCoroutine(ShaderTransition(0f, 3f));
+
+        StartCoroutine(GradientTransition(true));
+    }
+
+    public void UnFuckPlanet()
+    {
+        fucked = false;
+
+        StartCoroutine(Vector3Transition(Vector3.one * .4f, Vector3.one * .2f, "Size"));
+        StartCoroutine(FloatTransition(1.2f, 1.05f, "Radius"));
+        StartCoroutine(FloatTransition(2f, 1f, "Intensity"));
+        StartCoroutine(FloatTransition(.4f, .2f, "PartSize"));
+
+        StartCoroutine(ShaderTransition(3f, 0f));
+
+        StartCoroutine(GradientTransition(false));
     }
 
     private IEnumerator FloatTransition(float from, float to, string f)
@@ -48,6 +89,15 @@ public class VFX : MonoBehaviour
         for (int i = 0; i < transition_frames; i++)
         {
             vfx.SetVector3(v, Vector3.Lerp(from, to, i/ transition_frames));
+            yield return null;
+        }
+    }
+
+    private IEnumerator ShaderTransition(float from, float to)
+    {
+        for (int i = 0; i < transition_frames; i++)
+        {
+            earthRenderer.material.SetFloat("Vector1_3B5B2C67", Mathf.Lerp(from, to, i / transition_frames));
             yield return null;
         }
     }
