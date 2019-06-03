@@ -12,7 +12,6 @@ public class FuckPlanet : MonoBehaviour
     // a reference to the hand
     public SteamVR_Input_Sources handType;
 
-    //reference to the sphere
     public VFX vfx;
 
     private bool fucked;

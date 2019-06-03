@@ -18,13 +18,20 @@ public class VFX : MonoBehaviour
     private Vector3 handVector;
     private bool handOn;
     private bool fucked;
+    private AudioSource asrc;
+
+    private void Start()
+    {
+        asrc = GetComponent<AudioSource>();
+    }
 
     void Update()
     {
-        handVector = (hand.position - this.transform.position).normalized;
-        vfx.SetVector3("handPos", handVector);
+        handVector = hand.position;
+        vfx.SetVector3("handPos", hand.position);
+        vfx.SetVector3("VFXPos", this.transform.position);
 
-        if(Input.GetKeyDown(KeyCode.Alpha1)) // sick to good
+        if (Input.GetKeyDown(KeyCode.Alpha1)) // sick to good
         {
             UnFuckPlanet();
         }
@@ -64,6 +71,7 @@ public class VFX : MonoBehaviour
     public void UnFuckPlanet()
     {
         fucked = false;
+        vfx.SetFloat("handInfluence", 0f);
 
         StartCoroutine(Vector3Transition(Vector3.one * .4f, Vector3.one * .2f, "Size"));
         StartCoroutine(FloatTransition(1.2f, 1.05f, "Radius"));
@@ -98,6 +106,7 @@ public class VFX : MonoBehaviour
         for (int i = 0; i < transition_frames; i++)
         {
             earthRenderer.material.SetFloat("Vector1_3B5B2C67", Mathf.Lerp(from, to, i / transition_frames));
+            asrc.volume = Mathf.Lerp(from, to, i / transition_frames);
             yield return null;
         }
     }

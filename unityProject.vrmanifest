@@ -2,12 +2,12 @@
   "source": "Unity",
   "applications": [
     {
-      "app_key": "application.generated.unity.unitymobilelwrpvfxgraph.exe",
+      "app_key": "application.generated.unity.stimulations.exe",
       "launch_type": "url",
       "url": "steam://launch/",
       "strings": {
         "en_us": {
-          "name": "UnityMobileLWRPVFXGraph [Testing]"
+          "name": "Stimulations [Testing]"
         }
       }
     }
