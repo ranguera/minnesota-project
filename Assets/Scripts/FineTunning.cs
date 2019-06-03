@@ -14,6 +14,10 @@ public class FineTunning : MonoBehaviour
             this.transform.Translate(Vector3.right * Time.deltaTime * .1f);
         else if (Input.GetKey(KeyCode.LeftArrow))
             this.transform.Translate(Vector3.left * Time.deltaTime * .1f);
+        else if (Input.GetKey(KeyCode.Q))
+            this.transform.Translate(Vector3.forward * Time.deltaTime * .1f);
+        else if (Input.GetKey(KeyCode.A))
+            this.transform.Translate(Vector3.back * Time.deltaTime * .1f);
 
         if (Input.GetKey(KeyCode.W))
             this.transform.localScale += Vector3.one * Time.deltaTime * .1f;
