@@ -33,11 +33,11 @@ public class VFX : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha1)) // sick to good
         {
-            UnFuckPlanet();
+            //UnFuckPlanet();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha2)) // good to sick
         {
-            FuckPlanet();
+            //FuckPlanet();
         }
 
         if( Input.GetKeyDown(KeyCode.Alpha3))
@@ -54,33 +54,46 @@ public class VFX : MonoBehaviour
         }
     }
 
-    public void FuckPlanet()
+    //public void FuckPlanet()
+    //{
+    //    fucked = true;
+
+    //    StartCoroutine(Vector3Transition(Vector3.one * .2f, Vector3.one * .4f, "Size"));
+    //    StartCoroutine(FloatTransition(1.05f, 1.2f, "Radius"));
+    //    StartCoroutine(FloatTransition(1f, 2f, "Intensity"));
+    //    StartCoroutine(FloatTransition(.2f, .4f, "PartSize"));
+
+    //    StartCoroutine(ShaderTransition(0f, 1f));
+
+    //    StartCoroutine(GradientTransition(true));
+    //}
+
+    //public void UnFuckPlanet()
+    //{
+    //    fucked = false;
+    //    vfx.SetFloat("handInfluence", 0f);
+
+    //    StartCoroutine(Vector3Transition(Vector3.one * .4f, Vector3.one * .2f, "Size"));
+    //    StartCoroutine(FloatTransition(1.2f, 1.05f, "Radius"));
+    //    StartCoroutine(FloatTransition(2f, 1f, "Intensity"));
+    //    StartCoroutine(FloatTransition(.4f, .2f, "PartSize"));
+
+    //    StartCoroutine(ShaderTransition(1f, 0f));
+
+    //    StartCoroutine(GradientTransition(false));
+    //}
+
+    public void PlanetTransition(float val)
     {
-        fucked = true;
+        vfx.SetFloat("Radius", Mathf.Lerp(1.05f, 1.2f, val));
+        vfx.SetFloat("Intensity", Mathf.Lerp(1f, 2f, val));
+        vfx.SetFloat("PartSize", Mathf.Lerp(.2f, .4f, val));
+        vfx.SetVector3("Size", Vector3.Lerp(Vector3.one * .2f, Vector3.one * .4f, val));
 
-        StartCoroutine(Vector3Transition(Vector3.one * .2f, Vector3.one * .4f, "Size"));
-        StartCoroutine(FloatTransition(1.05f, 1.2f, "Radius"));
-        StartCoroutine(FloatTransition(1f, 2f, "Intensity"));
-        StartCoroutine(FloatTransition(.2f, .4f, "PartSize"));
+        earthRenderer.material.SetFloat("Vector1_3B5B2C67", Mathf.Lerp(0f, 1f, val));
+        asrc.volume = Mathf.Lerp(0f, 1f, val);
 
-        StartCoroutine(ShaderTransition(0f, 1f));
-
-        StartCoroutine(GradientTransition(true));
-    }
-
-    public void UnFuckPlanet()
-    {
-        fucked = false;
-        vfx.SetFloat("handInfluence", 0f);
-
-        StartCoroutine(Vector3Transition(Vector3.one * .4f, Vector3.one * .2f, "Size"));
-        StartCoroutine(FloatTransition(1.2f, 1.05f, "Radius"));
-        StartCoroutine(FloatTransition(2f, 1f, "Intensity"));
-        StartCoroutine(FloatTransition(.4f, .2f, "PartSize"));
-
-        StartCoroutine(ShaderTransition(1f, 0f));
-
-        StartCoroutine(GradientTransition(false));
+        GradientTransition(val);
     }
 
     private IEnumerator FloatTransition(float from, float to, string f)
@@ -111,7 +124,8 @@ public class VFX : MonoBehaviour
         }
     }
 
-    private IEnumerator GradientTransition(bool good_to_sick)
+
+    private void GradientTransition(float val)
     {
         Gradient temp = new Gradient();
         temp.colorKeys = new GradientColorKey[4];
@@ -122,8 +136,8 @@ public class VFX : MonoBehaviour
         Gradient from = null;
         Gradient to = null;
 
-        from = good_to_sick ? gradient_good : gradient_sick;
-        to = good_to_sick ? gradient_sick : gradient_good;
+        from = gradient_good;
+        to = gradient_sick;
 
         temp.alphaKeys = gradient_sick.alphaKeys;
 
@@ -162,23 +176,25 @@ public class VFX : MonoBehaviour
         g3.SetKeys(colorKey3, to.alphaKeys);
         g4.SetKeys(colorKey4, to.alphaKeys);
 
+        tempck[0].color = g1.Evaluate(val);
+        tempck[0].time = to.colorKeys[0].time;
+        tempck[1].color = g2.Evaluate(val);
+        tempck[1].time = to.colorKeys[1].time;
+        tempck[2].color = g3.Evaluate(val);
+        tempck[2].time = to.colorKeys[2].time;
+        tempck[3].color = g4.Evaluate(val);
+        tempck[3].time = to.colorKeys[3].time;
+
+        temp.SetKeys(tempck, temp.alphaKeys);
+
+        vfx.SetGradient("Gradient", temp);
+
         // Evaluate each of the colorkey gradients, create a new temp gradient and assign to vfx
-        for (int i = 0; i < transition_frames; i++)
-        {
-            tempck[0].color = g1.Evaluate(i / transition_frames);
-            tempck[0].time = to.colorKeys[0].time;
-            tempck[1].color = g2.Evaluate(i / transition_frames);
-            tempck[1].time = to.colorKeys[1].time;
-            tempck[2].color = g3.Evaluate(i / transition_frames);
-            tempck[2].time = to.colorKeys[2].time;
-            tempck[3].color = g4.Evaluate(i / transition_frames);
-            tempck[3].time = to.colorKeys[3].time;
-
-            temp.SetKeys(tempck, temp.alphaKeys);
+        //for (int i = 0; i < transition_frames; i++)
+        //{
             
-            vfx.SetGradient("Gradient", temp);
 
-            yield return null;
-        }
+        //    yield return null;
+        //}
     }
 }

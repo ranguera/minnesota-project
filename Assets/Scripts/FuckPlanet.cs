@@ -16,16 +16,16 @@ public class FuckPlanet : MonoBehaviour
 
     private bool fucked;
 
-    void Update()
-    {
-        if (SteamVR_Input.__actions_default_in_GrabPinch.GetStateDown(handType))
-        {
-            fucked = !fucked;
+    //void Update()
+    //{
+    //    if (SteamVR_Input.__actions_default_in_GrabPinch.GetStateDown(handType))
+    //    {
+    //        fucked = !fucked;
 
-            if (fucked)
-                vfx.UnFuckPlanet();
-            else
-                vfx.FuckPlanet();
-        }
-    }
+    //        if (fucked)
+    //            vfx.UnFuckPlanet();
+    //        else
+    //            vfx.FuckPlanet();
+    //    }
+    //}
 }
