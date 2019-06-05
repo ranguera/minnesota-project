@@ -63,7 +63,7 @@ public class VFX : MonoBehaviour
         StartCoroutine(FloatTransition(1f, 2f, "Intensity"));
         StartCoroutine(FloatTransition(.2f, .4f, "PartSize"));
 
-        StartCoroutine(ShaderTransition(0f, 3f));
+        StartCoroutine(ShaderTransition(0f, 1f));
 
         StartCoroutine(GradientTransition(true));
     }
@@ -78,7 +78,7 @@ public class VFX : MonoBehaviour
         StartCoroutine(FloatTransition(2f, 1f, "Intensity"));
         StartCoroutine(FloatTransition(.4f, .2f, "PartSize"));
 
-        StartCoroutine(ShaderTransition(3f, 0f));
+        StartCoroutine(ShaderTransition(1f, 0f));
 
         StartCoroutine(GradientTransition(false));
     }
